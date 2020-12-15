@@ -1,7 +1,7 @@
 import socket
 import types
 import selectors
-from connection_handler import get_game_client_socket, get_train_socket, handle_data
+from connection_handler import ConnectionHandler
 
 HOST = '127.0.0.1'
 PORT = 27972
@@ -18,6 +18,7 @@ sockets.setblocking(False)
 sel.register(sockets, selectors.EVENT_READ, data=None)
 print("The server is listening at host: {}, port {}".format(HOST, PORT))
 
+_connection_handler = ConnectionHandler()
 ####################################
 def accept_wrapper(sock):
     connection, address = sock.accept()
@@ -42,7 +43,7 @@ def service_connection(key, mask):
             sock.close()
     if mask & selectors.EVENT_WRITE:
         if data.outb:
-            handle_data(sock, data.outb)
+            _connection_handler.handle_data(sock, data.outb)
 
             data.outb = data.outb[len(data.outb):]
 ####################################
