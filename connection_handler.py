@@ -13,16 +13,20 @@ class ConnectionHandler:
             self.game_client_socket = sock
             self.game_client_socket.send(b'/REGISTER-GAME-CLIENT')
 
-        elif decoded_data == "/REGISTER-TRAIN-CLIENT":
-            self.train_socket = sock
-            self.train_socket.send(b'/REGISTER-TRAIN-CLIENT')
-
         elif decoded_data.find("/ENV-STATE") != -1:
             json_data = decoded_data.split("/ENV-STATE")[1]        
             self.train_socket.send(json_data.encode())
         
         elif decoded_data == "/GET-ENV-STATE":
             self.game_client_socket.send(b'/GET-ENV-STATE')
+
+        elif decoded_data == "/REGISTER-TRAIN-CLIENT":
+            self.train_socket = sock
+            self.train_socket.send(b'/REGISTER-TRAIN-CLIENT')
+
+        elif decoded_data.find("/ACTION") != - 1:
+            self.game_client_socket.send(data)
+
 
     def get_game_client_socket(self):
         return self.game_client_socket
