@@ -25,12 +25,23 @@ class TrainSocket:
     def get_env_state(self):
         self.sock.send(b'/GET-ENV-STATE')
 
-        data = self.sock.recv(BUFFER_SIZE)
-        string_env = data.decode()
-
-        environ = json.loads(string_env)
-        return environ
+    def handle_data(self, data):
+        print(data)
 
 conn = TrainSocket()
 conn.connect()
 conn.get_env_state()
+
+# So that the socket is never closed
+while True:
+    data = conn.sock.recv(BUFFER_SIZE)
+
+    if not data:
+        break
+
+    string_env = data.decode()
+
+    conn.handle_data(string_env)
+
+socket.close()
+

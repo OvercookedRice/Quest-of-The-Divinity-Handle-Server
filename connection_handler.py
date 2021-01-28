@@ -14,11 +14,14 @@ class ConnectionHandler:
             self.game_client_socket.send(b'/REGISTER-GAME-CLIENT')
 
         elif decoded_data.find("/ENV-STATE") != -1:
-            json_data = decoded_data.split("/ENV-STATE")[1]        
-            self.train_socket.send(json_data.encode())
+            json_data = decoded_data.split("/ENV-STATE")[1]
+
+            if (self.train_socket):
+                self.train_socket.send(json_data.encode())
         
         elif decoded_data == "/GET-ENV-STATE":
-            self.game_client_socket.send(b'/GET-ENV-STATE')
+            if (self.game_client_socket):
+                self.game_client_socket.send(b'/GET-ENV-STATE')
 
         elif decoded_data == "/REGISTER-TRAIN-CLIENT":
             self.train_socket = sock
