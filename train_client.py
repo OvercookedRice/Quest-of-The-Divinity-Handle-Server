@@ -26,7 +26,9 @@ class TrainSocket:
         self.sock.send(b'/GET-ENV-STATE')
 
     def handle_data(self, data):
-        print(data)
+        if data:
+            print(data)
+            self.sock.send(b'/ACTION 999')
 
 conn = TrainSocket()
 conn.connect()
