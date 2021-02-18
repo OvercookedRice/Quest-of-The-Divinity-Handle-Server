@@ -27,6 +27,10 @@ class ConnectionHandler:
             self.train_socket = sock
             self.train_socket.send(b'/REGISTER-TRAIN-CLIENT')
 
+        elif decoded_data == "/GAME-OVER":
+            if (self.train_socket):
+                self.train_socket.send(b'/GAME-OVER')
+
         elif decoded_data.find("/ACTION") != - 1:
             self.game_client_socket.send(data)
 

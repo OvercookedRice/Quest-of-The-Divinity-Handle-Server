@@ -26,9 +26,9 @@ class TrainSocket:
         self.sock.send(b'/GET-ENV-STATE')
 
     def handle_data(self, data):
-        str = '/ACTION ' + data
-        print(str + ',')
+        string = '/ACTION ' + data
+        print(string + ',')
         if data:
-            self.sock.send(bytes(str,'utf-8'))
+            self.sock.send(bytes(string,'utf-8'))
 
 
