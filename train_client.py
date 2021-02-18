@@ -26,24 +26,9 @@ class TrainSocket:
         self.sock.send(b'/GET-ENV-STATE')
 
     def handle_data(self, data):
+        str = '/ACTION ' + data
+        print(str + ',')
         if data:
-            print(data)
-            self.sock.send(b'/ACTION 999')
+            self.sock.send(bytes(str,'utf-8'))
 
-conn = TrainSocket()
-conn.connect()
-conn.get_env_state()
-
-# So that the socket is never closed
-while True:
-    data = conn.sock.recv(BUFFER_SIZE)
-
-    if not data:
-        break
-
-    string_env = data.decode()
-
-    conn.handle_data(string_env)
-
-socket.close()
 
